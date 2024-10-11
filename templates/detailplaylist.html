@@ -20,177 +20,149 @@
 {% endif %}
 
 {% block content %}
+
     <style>
-        .artistPage {
+        :root {
+            --alb-banner-height: 180px;
+        }
+
+        .song-alb-page-contain {
             width: 100%;
             height: 100%;
             position: relative;
             overflow-y: scroll;
         }
 
-        .image-contain {
+        .alb-header-banner {
             width: 100%;
+            background-image: linear-gradient(#1c4587,#073763);
             position: relative;
-            height: 40%;
-            background-color: #1a37b9;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 3rem;
-        }
-
-        .image-contain img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .image-contain .del-alb {
-            font-size: 72px;
-        }
-
-        .artist-name {
-            font-size: 132px;
-            color: #fff;
-            font-weight: bolder;
-        }
-
-        .top-song-contain {
-            position: relative;
-            max-width: 1500px;
-            margin: 2rem;
-        }
-
-        .top-song-contain .top-song-text {
-            font-size: 36px;
-            color: #fff;
-            font-weight: bolder;
-        }
-
-        .song {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 21px;
-            color: #fff;
-        }
-
-        .song .img-name {
-            display: flex;
-            padding: 1rem;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .song .song-img {
-            width: 60px;
-            height: 60px;
-            background-color: #fff;
-            margin-right: 2rem;
-            object-fit: cover;
-        }
-
-        .song .addTo {
-            margin: 0 2rem;
-        }
-
-        .all-album-list {
             display: flex;
             justify-content: left;
             align-items: center;
-            position: relative;
-            overflow-x: scroll;
-            white-space: nowrap;
-            margin: 1rem;
         }
 
-        .all-album-list::-webkit-scrollbar {
-            display: none
-        }
-
-        .alb-list {
-            list-style: none;
-        }
-
-        .alb {
-            min-width: 235px;
-            list-style: none;
-            height: 320px;
-            margin: 0 0.3rem;
-            display: block;
-            position: relative;
-            padding: 2rem 1rem;
-        }
-
-        .alb-img {
+        .alb-img-banner {
+            width: 140px;
+            height: 140px;
             background-color: #fff;
-            width: 100%;
-            height: 260px; /* Set a fixed height */
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            overflow: hidden; /* To ensure the image doesn't overflow */
+            margin: 1rem
         }
-
-        .alb-img img {
-            width: 100%;
+        
+        .alb-banner-text {
+            display: flex;
             height: 100%;
-            object-fit: cover;
-            border-radius: 0.5rem;
-        }
-
-        .alb-info {
-            display: inline;
+            flex-direction: column;
+            position: relative;
             color: #fff;
+            justify-content: center;
+            padding: 0 0.5rem;
         }
 
-        .alb-info .alb-name{
-            font-size: 21px;
-            font-weight: bold;
+        .alb-text {
+            font-size: 14px;
         }
 
-        .alb-info .alb-describe{
-            font-size: 18px;
+        .alb-name {
+            font-size: 64px;
+            font-weight: bolder;
         }
+
+        .alb-desc {
+            display: flex;
+            font-size: 15px;
+        }
+
+        .alb-desc p {
+            padding: 0 0.3rem;
+        }
+
+        .alb-all-song {
+            color: #fff;
+            padding: 1rem;
+        }
+
+        .alb-song-table {
+            width: 100%;
+        }
+
+        .alb-song-table td, .alb-song-table th {
+            padding: 1rem;
+        }
+
+
+
     </style>
 
-    <div class="artistPage">
-        <div class="image-contain">
-            <p class="artist-name">{{playlist.name}}</p>
-            <div class="del-alb">
-                <a href="/deleteplaylist/{{playlist.id}}" class="">
-                    <i class="fa-solid fa-trash delete-playlist-btn"></i>
-                </a>
+    <div class="song-alb-page-contain">
+        <div class="alb-header-banner">
+        <!-- ใช้ tag img แทน ลบ div class="alb-img-banner" -->
+        <!-- <img src="" alt="" class="alb-img-banner"> -->
+            <img src='https://icon-library.com/images/icon-music-note/icon-music-note-0.jpg' class="alb-img-banner ">
+            <div class="alb-banner-text">
+                <p class="alb-name">{{playlist.name}}</p>
+                <p class="alb-desc">{{playlist.description}} create at {{playlist.created_at}}</p>    
+                <div class="alb-desc">
+                    <a href="/deleteplaylist/{{playlist.id}}">
+                        <p class="alb-artist underline">remove playlist</p>
+                    </a> 
+                </div>
             </div>
         </div>
-        
-        <div class="top-song-contain">
-            <p class="top-song-text">description</p>
-            <p class="text-white">{{playlist.description}}</p>
-            <p class="top-song-text">My song</p>
-                {% for song in playlistSong %}
-                <li class="song">
-                    <div class="img-name">
-                        <div class="song-img">
-                            <img src="{{song.song.img}}">
-                        </div>
-                        <p class="song-name">{{song.song.title}}</p>
-                    </div>
-                    {% if user.is_authenticated %}
-                    <div class="addTo">
-                        <div class="flex flex-row">
-                            <p class="mx-10">{{song.song.duration}}</p>
-                            <a href="/delete/{{song.song.id}}/{{playlist.id}}"><h1>delete</h1></a>
-                        </div>
-                    </div>
-                    {% endif %}
-                </li>
-                {% endfor %}
+        <div class="hide-header"> </div>
+
+        <div class="alb-tools"></div>
+        <div class="alb-all-song">
+            <table class="alb-song-table">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th style="width:90%; text-align: left;">Title</th>
+                        <th>Time</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for song in playlistSong %}
+                        <tr class="alb-table-item">
+                            <td class="song-no text-center">{{ forloop.counter }}</td>
+                            <td class="song-name-contain">
+                                <a href="/songDetail/{{song.song.id}}" class="song-con"><p class="song-name">{{song.song.title}}</p></a>
+                                
+                                <p class="song-artist">{{song.song.author.name}}</p>
+                            </td>
+                            <td class="song-duration text-center">{{song.song.duration}}</td>
+                            <td class="song-duration text-center">
+                                <a href="/delete/{{song.song.id}}/{{playlist.id}}">
+                                    <i class="fa-solid fa-remove"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>    
+            </table> 
+        </div>
+        <div class="footer">
+            <div class="footer-contain">
+                <p class="footer-logo">69Music</p>
+                <div class="footer-choices">
+                    <p class="footer-item" id="home">Home</p>
+                    <p class="footer-item" id="about">About</p>
+                    <p class="footer-item" id="services">Services</p>
+                    <p class="footer-item" id="blog">Blog</p>
+                    <p class="footer-item" id="contact">Contact</p>
+                </div>
+                <div class="footer-social">
+                    <p class="social-item fa-brands fa-facebook" id="facebook"></p>
+                    <p class="social-item fa-brands fa-x-twitter" id="X"></p>
+                    <p class="social-item fa-brands fa-instagram" id="instagram"></p>
+                </div>
+                <p class="copyright">&#169; 2024 69Music</p>
+            </div>
         </div>
     </div>
-    
+
+
 {% endblock %}
 
 

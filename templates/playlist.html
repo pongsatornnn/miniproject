@@ -235,12 +235,14 @@
     </a>
     <div class="mt-10 flex flex-col justify-center items-center">
         {% for playlist in playlists %}
-        <li class="playlist">
-            <div class="img">
-                <img class="bg-white" src="https://icon-library.com/images/icon-music-note/icon-music-note-0.jpg">
-            </div>
-            <div class="describe">{{playlist.name}} <a href="/addtoplaylist/{{songs.id}}/{{playlist.id}}">+</a></div>
-        </li>
+        <a href="/addtoplaylist/{{songs.id}}/{{playlist.id}}">
+            <li class="playlist">
+                <div class="img">
+                    <img class="bg-white" src="https://icon-library.com/images/icon-music-note/icon-music-note-0.jpg">
+                </div>
+                <div class="describe">{{playlist.name}} <a href="/addtoplaylist/{{songs.id}}/{{playlist.id}}">+</a></div>
+            </li>
+        </a>
         {% endfor %}
         
     </div>
