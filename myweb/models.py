@@ -36,6 +36,7 @@ class Song(models.Model):
     link = models.CharField(max_length=200, default='')
     linkspotify = models.CharField(max_length=200, default='')
     linkapple = models.CharField(max_length=200, default='')
+    typee = models.CharField(max_length=200, default='String')
     
     def __str__(self):
         return self.title
